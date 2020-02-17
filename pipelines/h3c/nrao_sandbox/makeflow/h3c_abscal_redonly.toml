@@ -1,0 +1,32 @@
+[Options]
+makeflow_type = "analysis"
+path_to_do_scripts = "/lustre/aoc/projects/hera/aewallwi/H3C_analysis/task_scripts"
+source_script = "~/.bashrc"
+conda_env = "hera3"
+ex_ants_path = "/lustre/aoc/projects/hera/aewallwi/H3C_analysis/bad_ants"
+base_mem = 8000
+base_cpu = 1
+timeout = "24h"
+pbs_mail_user = "aaronew+nrao@berkeley.edu"
+
+[ABSCAL_OPTS]
+model_files_glob = "'/lustre/aoc/projects/hera/aewallwi/H3C_analysis/abscal_models/RIMZ_v0/redundant_only/zen.*.uvh5'"
+#model_files_glob = "'/users/zmartino/zmartino/hera_calib_model/H3C/abscal_files_unique_baselines/*.uvh5'"
+
+nInt_to_load = 6
+min_bl_cut = 1.0
+max_bl_cut = 100.0
+phs_max_iter = 100
+phs_conv_crit = 1e-6
+edge_cut = 100
+refant = 12
+label = "redonly"
+############################################################################################################
+
+[WorkFlow]
+actions = ["ABSCAL_LABELED_REDONLY"]
+
+[ABSCAL_LABELED_REDONLY]
+args = ["{basename}", "${ABSCAL_OPTS:model_files_glob}", "${ABSCAL_OPTS:nInt_to_load}",
+        "${ABSCAL_OPTS:min_bl_cut}", "${ABSCAL_OPTS:max_bl_cut}", "${ABSCAL_OPTS:phs_max_iter}",
+        "${ABSCAL_OPTS:phs_conv_crit}", "${ABSCAL_OPTS:edge_cut}", "${ABSCAL_OPTS:refant}", "${ABSCAL_OPTS:label}"]
