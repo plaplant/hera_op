@@ -1,0 +1,38 @@
+[Options]
+makeflow_type = "analysis"
+path_to_do_scripts = "/lustre/aoc/projects/hera/aewallwi/H3C_analysis/task_scripts"
+source_script = "~/.bashrc"
+conda_env = "hera3dev"
+ex_ants_path = "/lustre/aoc/projects/hera/aewallwi/H3C_analysis/bad_ants"
+base_mem = 8000
+base_cpu = 1
+timeout = "24h"
+pbs_mail_user = "aaronew+nrao@berkeley.edu"
+
+[XRFI_OPTS]
+kt_size = 8
+kf_size = 8
+sig_init = 6.0
+sig_adj = 3.0
+label = "auto"
+filter_centers = "0.0"
+filter_half_widths = "200e-9"
+skip_wgts = "0.15,0.5,0.5"
+sig_inits = "6.0,5.0,3.0"
+sig_adjs = "3.0,2.0,1.0"
+polarizations = "ee,nn"
+
+############################################################################################################
+
+[WorkFlow]
+actions = ["XRFI_AUTO"]
+
+
+[XRFI_AUTO]
+mem = 32000
+args = ["{basename}", "${XRFI_OPTS:kt_size}", "${XRFI_OPTS:kf_size}", "${XRFI_OPTS:sig_init}",
+        "${XRFI_OPTS:sig_adj}", "${XRFI_OPTS:label}", "${XRFI_OPTS:filter_centers}",
+	"${XRFI_OPTS:filter_half_widths}", "${XRFI_OPTS:skip_wgts}", "${XRFI_OPTS:sig_inits}",
+	"${XRFI_OPTS:sig_adjs}", "${XRFI_OPTS:polarizations}", "${Options:ex_ants_path}"]
+
+
