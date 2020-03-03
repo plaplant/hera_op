@@ -27,7 +27,7 @@ flag_nchan_high = 0
 min_bl_cut = 15
 max_bl_cut = 100
 iter0_prefix = ".iter0"
-good_statuses = "digital_ok,digital_maintenance,calibration_maintenance,calibration_triage,calibration_ok"
+good_statuses = "passed_checks,needs_checking,digital_ok,digital_maintenance,calibration_maintenance,calibration_triage,calibration_ok"
 
 [WorkFlow]
 actions = ["SETUP", "ANT_METRICS", "MAKE_NOTEBOOK", "REDCAL"]
