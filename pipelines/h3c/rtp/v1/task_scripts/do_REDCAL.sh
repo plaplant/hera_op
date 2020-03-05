@@ -48,14 +48,13 @@ jd_int=`echo $jd | awk '{$1=int($1)}1'`
 bad_ants_fn=`echo "${bad_ants_dir}/${jd_int}.txt"`
 if [ -f "${bad_ants_fn}" ]; then
     ex_ants=$(prep_exants ${bad_ants_fn})
-    ex_ants=`echo "${ex_ants}","${ex_ants_db}"`
+    ex_ants=`echo "${ex_ants}" "${ex_ants_db}"`
 else
     ex_ants="${ex_ants_db}"
 fi
 
 # get metrics_json filename, removing extension and appending ant_metrics_extension
 metrics_f=`echo ${fn%.uvh5}${ant_metrics_extension}`
-# 
 
 # run redcal
 echo redcal_run.py ${fn} --ex_ants ${ex_ants} --ant_z_thresh ${ant_z_thresh} --solar_horizon ${solar_horizon} --oc_maxiter ${oc_maxiter} \
