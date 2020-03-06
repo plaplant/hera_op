@@ -31,12 +31,19 @@ iter0_prefix = ".iter0"
 good_statuses = "passed_checks,needs_checking,digital_ok,digital_maintenance,calibration_maintenance,calibration_triage,calibration_ok"
 
 [WorkFlow]
-actions = ["SETUP", "ANT_METRICS", "MAKE_NOTEBOOK", "REDCAL"]
+actions = ["SETUP", "ANT_METRICS", "MAKE_NOTEBOOK", "REDCAL", "MAKE_REDCAL_NOTEBOOK"]
 
 [ANT_METRICS]
 args = ["{basename}", "${ANT_METRICS_OPTS:crossCut}",
         "${ANT_METRICS_OPTS:deadCut}", "${ANT_METRICS_OPTS:extension}",
         "${ANT_METRICS_OPTS:vis_format}"]
+
+[MAKE_NOTEBOOK]
+prereqs = "ANT_METRICS"
+time_prereqs = "ANT_METRICS"
+n_time_neighbors = "all"
+args = ["{basename}","{prev_basename}","${NB_OPTS:basenbdir}"]
+
 
 [REDCAL]
 prereqs = "ANT_METRICS"
@@ -47,8 +54,10 @@ args = ["{basename}", "${Options:ex_ants_path}", "${REDCAL_OPTS:ant_z_thresh}",
         "${REDCAL_OPTS:max_bl_cut}", "${REDCAL_OPTS:iter0_prefix}", 
         "${ANT_METRICS_OPTS:extension}", "${REDCAL_OPTS:good_statuses}"]
 
-[MAKE_NOTEBOOK]
-prereqs = "ANT_METRICS"
-time_prereqs = "ANT_METRICS"
+
+[MAKE_REDCAL_NOTEBOOK]
+prereqs = "REDCAL"
+time_prereqs = "REDCAL"
 n_time_neighbors = "all"
+mem = 64000
 args = ["{basename}","{prev_basename}","${NB_OPTS:basenbdir}"]
