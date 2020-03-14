@@ -35,11 +35,22 @@ max_bl_cut = 100
 iter0_prefix = ".iter0"
 good_statuses = "passed_checks,needs_checking,digital_ok,digital_maintenance,calibration_maintenance,calibration_triage,calibration_ok"
 
+[ABSCAL_OPTS]
+model_files_glob = "'/lustre/aoc/projects/hera/aewallwi/H3C_analysis/abscal_models/RIMZ_v0/redundant_only/zen*.uvh5'"
+nInt_to_load = 60
+min_bl_cut = 4.0
+max_bl_cut = 100.0
+phs_max_iter = 100
+phs_conv_crit = 1e-6
+edge_cut = 100
+
 [WorkFlow]
-actions = ["SETUP", "UPLOAD","MAKE_SESSION", "ANT_METRICS",
-           "ADD_LIBRARIAN_ANT_METRICS", "ADD_MC_ANT_METRICS", "SSINS",
-           "ADD_LIBRARIAN_SSINS", "MAKE_NOTEBOOK", "ADD_RTP_PROCESS_RECORD",
-           "REDCAL", "MAKE_REDCAL_NOTEBOOK", "ADD_LIBRARIAN_REDCAL"]
+actions = ["SETUP", 
+           "ANT_METRICS",
+           "MAKE_NOTEBOOK",
+           "REDCAL",
+           "ABSCAL",
+           "MAKE_REDCAL_NOTEBOOK"]
 
 [ANT_METRICS]
 args = ["{basename}", "${ANT_METRICS_OPTS:crossCut}",
@@ -69,4 +80,8 @@ n_time_neighbors = "all"
 mem = 64000
 args = ["{basename}", "{prev_basename}", "${NB_OPTS:basenbdir}"]
 
+[ABSCAL]
 prereqs = "REDCAL"
+args = ["{basename}", "${ABSCAL_OPTS:model_files_glob}", "${ABSCAL_OPTS:nInt_to_load}",
+        "${ABSCAL_OPTS:min_bl_cut}", "${ABSCAL_OPTS:max_bl_cut}", "${ABSCAL_OPTS:phs_max_iter}",
+        "${ABSCAL_OPTS:phs_conv_crit}", "${ABSCAL_OPTS:edge_cut}"]
