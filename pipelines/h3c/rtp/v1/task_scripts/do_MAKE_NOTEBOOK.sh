@@ -22,10 +22,10 @@ then
     --ExecutePreprocessor.timeout=-1 \
     --execute data_inspect_H3C.ipynb
 
-    git pull origin master
-    git add ${OUTPUT}
-    git commit -m 'RTP data inspection notebook commit for JD ${jd}'
-    git push origin master
+    # git pull origin master
+    # git add ${OUTPUT}
+    # git commit -m 'RTP data inspection notebook commit for JD ${jd}'
+    # git push origin master
 
     cd ${src_dir}
 fi
