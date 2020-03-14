@@ -21,7 +21,8 @@ extension = ".ant_metrics.hdf5"
 vis_format = "uvh5"
 
 [NB_OPTS]
-basenbdir = '/home/obs/src/H3C_plots'
+# basenbdir = '/home/obs/src/H3C_plots'
+basenbdir = '/users/jsdillon/Libraries/H3C_plots'
 
 [REDCAL_OPTS]
 ant_z_thresh = 4.0
@@ -47,7 +48,6 @@ edge_cut = 100
 [WorkFlow]
 actions = ["SETUP", 
            "ANT_METRICS",
-           "MAKE_NOTEBOOK",
            "REDCAL",
            "ABSCAL",
            "MAKE_REDCAL_NOTEBOOK"]
@@ -56,13 +56,6 @@ actions = ["SETUP",
 args = ["{basename}", "${ANT_METRICS_OPTS:crossCut}",
         "${ANT_METRICS_OPTS:deadCut}", "${ANT_METRICS_OPTS:extension}",
         "${ANT_METRICS_OPTS:vis_format}"]
-
-
-[MAKE_NOTEBOOK]
-time_prereqs = "ANT_METRICS"
-n_time_neighbors = "all"
-args = ["{basename}", "{prev_basename}", "${NB_OPTS:basenbdir}"]
-
 
 [REDCAL]
 prereqs = "ANT_METRICS"
@@ -73,15 +66,15 @@ args = ["{basename}", "${Options:ex_ants_path}", "${REDCAL_OPTS:ant_z_thresh}",
         "${REDCAL_OPTS:max_bl_cut}", "${REDCAL_OPTS:iter0_prefix}",
         "${ANT_METRICS_OPTS:extension}", "${REDCAL_OPTS:good_statuses}"]
 
+[ABSCAL]
+prereqs = "REDCAL"
+args = ["{basename}", "${ABSCAL_OPTS:model_files_glob}", "${ABSCAL_OPTS:nInt_to_load}",
+        "${ABSCAL_OPTS:min_bl_cut}", "${ABSCAL_OPTS:max_bl_cut}", "${ABSCAL_OPTS:phs_max_iter}",
+        "${ABSCAL_OPTS:phs_conv_crit}", "${ABSCAL_OPTS:edge_cut}"]
+
 [MAKE_REDCAL_NOTEBOOK]
 prereqs = "REDCAL"
 time_prereqs = "REDCAL"
 n_time_neighbors = "all"
 mem = 64000
 args = ["{basename}", "{prev_basename}", "${NB_OPTS:basenbdir}"]
-
-[ABSCAL]
-prereqs = "REDCAL"
-args = ["{basename}", "${ABSCAL_OPTS:model_files_glob}", "${ABSCAL_OPTS:nInt_to_load}",
-        "${ABSCAL_OPTS:min_bl_cut}", "${ABSCAL_OPTS:max_bl_cut}", "${ABSCAL_OPTS:phs_max_iter}",
-        "${ABSCAL_OPTS:phs_conv_crit}", "${ABSCAL_OPTS:edge_cut}"]
