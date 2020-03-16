@@ -22,10 +22,10 @@ then
     --ExecutePreprocessor.timeout=-1 \
     --execute Redcal_Inspect_H3C.ipynb
 
-    git pull origin master
-    git add ${OUTPUT}
-    git commit -m 'RTP redcal notebook commit for JD ${jd}'
-    git push origin master
+    # git pull origin master
+    # git add ${OUTPUT}
+    # git commit -m 'RTP redcal notebook commit for JD ${jd}'
+    # git push origin master
 
     cd ${src_dir}
 fi
