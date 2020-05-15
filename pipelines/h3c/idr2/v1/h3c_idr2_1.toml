@@ -18,14 +18,14 @@ vis_format = "uvh5"
 basenbdir = '/users/jsdillon/Libraries/H3C_plots'
 
 [REDCAL_OPTS]
-ant_z_thresh = 1e100
+ant_z_thresh = 4
 solar_horizon = 0.0
 nInt_to_load = 8
-flag_nchan_low = 256
+flag_nchan_low = 0
 flag_nchan_high = 0
-oc_maxiter = 2000
+oc_maxiter = 5000
 min_bl_cut = 15
-max_bl_cut = 100
+max_bl_cut = 150
 iter0_prefix = ".iter0"
 good_statuses = "passed_checks,needs_checking,digital_ok,digital_maintenance,calibration_maintenance,calibration_triage,calibration_ok"
 
@@ -71,20 +71,10 @@ calibration = "smooth_abs.calfits"
 ############################################################################################################
 
 [WorkFlow]
-actions = [#"FIX_DATAFILE",
-           "EXTRACT_AUTOS",
+actions = ["EXTRACT_AUTOS",
            "ANT_METRICS",
            "REDCAL",
-           "FIRSTCAL_METRICS",
-           "ABSCAL",
-           "XRFI",
-           "XRFI_DAY_THRESHOLD",
-           "CAL_SMOOTH",
-           "MAKE_REDCAL_NOTEBOOK",
-           "UPDATE_OMNISOL",
-           "NOISE",
-           "IMAGING",
-           "MAKE_NOTEBOOK"]
+           "MAKE_REDCAL_NOTEBOOK"]
 
 [FIX_DATAFILE]
 args = "{basename}"
